@@ -138,7 +138,7 @@ pub fn main() !void {
     var cr = try cairo.Context.create(&surface);
     defer cr.destroy();
 
-    var gpa = std.heap.GeneralPurposeAllocator(.{.verbose_log = true}){};
+    var gpa = std.heap.GeneralPurposeAllocator(.{ .verbose_log = true }){};
     defer _ = gpa.deinit();
     var allocator = gpa.allocator();
 

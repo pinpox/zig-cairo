@@ -51,7 +51,7 @@ pub const Surface = struct {
     /// it when he no longer needs it.
     /// https://www.cairographics.org/manual/cairo-cairo-surface-t.html#cairo-surface-create-similar
     pub fn createSimilar(other: *Self, content: Content, width: u16, height: u16) !Self {
-        var c_ptr = c.cairo_surface_create_similar(other.c_ptr, content.toCairoEnum(), @intCast(c_int, width), @intCast(c_int, height));
+        var c_ptr = c.cairo_surface_create_similar(other.c_ptr, content.toCairoEnum(), @as(c_int, @intCast(width)), @as(c_int, @intCast(height)));
         // cairo_surface_create_similar always return a valid pointer, but it
         // can return a pointer to a "nil" surface if the `other` surface is
         // already in an error state, or if any other error occurs.
@@ -61,7 +61,7 @@ pub const Surface = struct {
 
     /// https://www.cairographics.org/manual/cairo-cairo-surface-t.html#cairo-surface-create-similar-image
     pub fn createSimilarImage(other: *Self, format: Format, width: u16, height: u16) !Self {
-        var c_ptr = c.cairo_surface_create_similar_image(other.c_ptr, format.toCairoEnum(), @intCast(c_int, width), @intCast(c_int, height));
+        var c_ptr = c.cairo_surface_create_similar_image(other.c_ptr, format.toCairoEnum(), @as(c_int, @intCast(width)), @as(c_int, @intCast(height)));
         // cairo_surface_create_similar_image always return a valid pointer, but
         // it can return a pointer to a "nil" surface if the `other` surface is
         // already in an error state, or if any other error occurs.
@@ -142,7 +142,7 @@ pub const Surface = struct {
             std.log.warn("`getHeight` not implemented for {}", .{st});
             return Error.SurfaceTypeMismatch;
         } else {
-            return @intCast(u16, c.cairo_image_surface_get_height(self.c_ptr));
+            return @as(u16, @intCast(c.cairo_image_surface_get_height(self.c_ptr)));
         }
     }
 
@@ -173,7 +173,7 @@ pub const Surface = struct {
             std.log.warn("`getWidth` not implemented for {}", .{st});
             return Error.SurfaceTypeMismatch;
         } else {
-            return @intCast(u16, c.cairo_image_surface_get_width(self.c_ptr));
+            return @as(u16, @intCast(c.cairo_image_surface_get_width(self.c_ptr)));
         }
     }
 
@@ -260,7 +260,7 @@ pub const Surface = struct {
     pub fn setSize(self: *Self, width: f64, height: f64) void {
         const st = self.getType();
         switch (st) {
-            SurfaceType.xcb => xcb_surface.setSize(self.c_ptr, @floatToInt(u16, width), @floatToInt(u16, height)),
+            SurfaceType.xcb => xcb_surface.setSize(self.c_ptr, @as(u16, @intFromFloat(width)), @as(u16, @intFromFloat(height))),
             SurfaceType.pdf => pdf_surface.setSize(self.c_ptr, width, height),
             else => std.log.warn("`setSize` not implemented for {}", .{st}),
         }

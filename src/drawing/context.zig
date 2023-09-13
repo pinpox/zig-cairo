@@ -188,7 +188,7 @@ pub const Context = struct {
 
     /// https://cairographics.org/manual/cairo-cairo-t.html#cairo-get-dash-count
     pub fn getDashCount(self: *Self) usize {
-        return @intCast(usize, c.cairo_get_dash_count(self.c_ptr));
+        return @as(usize, @intCast(c.cairo_get_dash_count(self.c_ptr)));
     }
 
     /// https://cairographics.org/manual/cairo-cairo-t.html#cairo-get-fill-rule
@@ -445,8 +445,8 @@ pub const Context = struct {
     /// https://github.com/freedesktop/cairo/blob/577477207a300fd75c93da93dbb233256d8b48d8/util/cairo-trace/trace.c#L2948
     pub fn selectFontFace(self: *Self, family: [*]const u8, slant: FontSlant, weight: FontWeight) void {
         // const font_slant = @intToEnum(c.enum__cairo_font_slant, @enumToInt(slant));
-        const font_slant = @enumToInt(slant);
-        const font_weight = @enumToInt(weight);
+        const font_slant = @intFromEnum(slant);
+        const font_weight = @intFromEnum(weight);
         // const font_weight = @intToEnum(c.enum__cairo_font_weight, @enumToInt(weight));
         c.cairo_select_font_face(self.c_ptr, family, font_slant, font_weight);
     }
@@ -458,7 +458,7 @@ pub const Context = struct {
 
     /// https://cairographics.org/manual/cairo-cairo-t.html#cairo-set-dash
     pub fn setDash(self: *Self, dashes: []f64, offset: f64) void {
-        c.cairo_set_dash(self.c_ptr, dashes.ptr, @intCast(c_int, dashes.len), offset);
+        c.cairo_set_dash(self.c_ptr, dashes.ptr, @as(c_int, @intCast(dashes.len)), offset);
     }
 
     /// https://cairographics.org/manual/cairo-cairo-t.html#cairo-set-fill-rule
@@ -910,8 +910,8 @@ test "getTarget() returns the expected Surface" {
 
     var target = try cr.getTarget();
     // surface and target are just containers for the same C pointer.
-    const addr_1 = @ptrToInt(surface.c_ptr);
-    const addr_2 = @ptrToInt(target.c_ptr);
+    const addr_1 = @intFromPtr(surface.c_ptr);
+    const addr_2 = @intFromPtr(target.c_ptr);
     try expectEqual(addr_1, addr_2);
 }
 
@@ -923,13 +923,13 @@ test "getGroupTarget() returns different Surfaces before and after pushGroup()" 
     defer cr.destroy();
 
     var target = try cr.getGroupTarget();
-    const addr_1 = @ptrToInt(surface.c_ptr);
-    const addr_2 = @ptrToInt(target.c_ptr);
+    const addr_1 = @intFromPtr(surface.c_ptr);
+    const addr_2 = @intFromPtr(target.c_ptr);
     try expectEqual(addr_1, addr_2);
 
     cr.pushGroup();
     var target_after = try cr.getGroupTarget();
-    const addr_3 = @ptrToInt(target_after.c_ptr);
+    const addr_3 = @intFromPtr(target_after.c_ptr);
     try expect(addr_3 != addr_2);
 }
 

@@ -26,14 +26,14 @@ fn drawText(cr: *cairo.Context) !void {
     defer desc.destroy();
 
     // const scale: f64 = pc.SCALE;
-    const scale = @intToFloat(f64, pc.SCALE);
+    const scale = @as(f64, @floatFromInt(pc.SCALE));
     desc.setAbsoluteSize(FONT_SIZE * DEVICE_DPI * scale / (72.0 / TWEAKABLE_SCALE));
     layout.setFontDescription(desc);
 
     // Draw the layout N_WORDS times in a circle
     var i: usize = 0;
     while (i < N_WORDS) : (i += 1) {
-        const angle: f64 = (360.0 * @intToFloat(f64, i)) / @intToFloat(f64, N_WORDS);
+        const angle: f64 = (360.0 * @as(f64, @floatFromInt(i))) / @as(f64, @floatFromInt(N_WORDS));
 
         cr.save();
         // gradient from red at angle == 60 to blue at angle == 240

@@ -11,8 +11,8 @@ fn drawGrid(cr: *cairo.Context, size: u16, divisions: usize) void {
 
     var i: usize = 0;
     while (i < divisions) : (i += 1) {
-        const s = @intToFloat(f64, size);
-        const k = s * @intToFloat(f64, i) / @intToFloat(f64, divisions);
+        const s = @as(f64, @floatFromInt(size));
+        const k = s * @as(f64, @floatFromInt(i)) / @as(f64, @floatFromInt(divisions));
         cr.moveTo(k, 0);
         cr.lineTo(k, s);
         cr.moveTo(0, k);

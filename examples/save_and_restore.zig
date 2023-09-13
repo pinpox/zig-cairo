@@ -9,7 +9,7 @@ const setBackground = @import("utils.zig").setBackground;
 fn saveAndRestore(cr: *cairo.Context, width: f64, height: f64) !void {
     const LINES: usize = 32;
     const MAX_THETA = 0.80 * pi * 2.0;
-    const THETA_INC = 2.0 * MAX_THETA / @intToFloat(f64, LINES - 1);
+    const THETA_INC = 2.0 * MAX_THETA / @as(f64, @floatFromInt(LINES - 1));
 
     cr.save();
 
@@ -51,6 +51,6 @@ pub fn main() !void {
     defer cr.destroy();
 
     setBackground(&cr);
-    try saveAndRestore(&cr, @intToFloat(f64, width), @intToFloat(f64, height));
+    try saveAndRestore(&cr, @as(f64, @floatFromInt(width)), @as(f64, @floatFromInt(height)));
     _ = surface.writeToPng("examples/generated/save_and_restore.png");
 }

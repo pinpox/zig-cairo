@@ -64,6 +64,6 @@ pub fn main() !void {
     defer cr.destroy();
 
     setBackground(&cr);
-    try drawPythagorasTree(&cr, @intToFloat(f64, width), @intToFloat(f64, height));
+    try drawPythagorasTree(&cr, @as(f64, @floatFromInt(width)), @as(f64, @floatFromInt(height)));
     _ = surface.writeToPng("examples/generated/pythagoras_tree.png");
 }

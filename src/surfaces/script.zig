@@ -63,5 +63,5 @@ pub fn surfaceCreate(filename: []const u8, content: Content, width: f64, height:
 
 /// https://www.cairographics.org/manual/cairo-Script-Surfaces.html#cairo-script-write-comment
 pub fn writeComment(script: *c.struct__cairo_device, comment: []const u8) void {
-    c.cairo_script_write_comment(script, comment.ptr, @intCast(c_int, comment.len));
+    c.cairo_script_write_comment(script, comment.ptr, @as(c_int, @intCast(comment.len)));
 }

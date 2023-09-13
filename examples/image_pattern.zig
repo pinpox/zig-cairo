@@ -24,8 +24,8 @@ fn imagePattern(allocator: *std.mem.Allocator, cr: *cairo.Context) !void {
     var arena = std.heap.ArenaAllocator.init(std.heap.page_allocator);
     defer arena.deinit();
 
-    const sx = @intToFloat(f64, w) / 256.0 * 5.0;
-    const sy = @intToFloat(f64, h) / 256.0 * 5.0;
+    const sx = @as(f64, @floatFromInt(w)) / 256.0 * 5.0;
+    const sy = @as(f64, @floatFromInt(h)) / 256.0 * 5.0;
 
     var matrix = try cairo.Matrix.initScale(allocator, sx, sy);
     defer matrix.destroy();
@@ -48,7 +48,7 @@ pub fn main() !void {
 
     setBackground(&cr);
 
-    var gpa = std.heap.GeneralPurposeAllocator(.{.verbose_log = true}){};
+    var gpa = std.heap.GeneralPurposeAllocator(.{ .verbose_log = true }){};
     defer _ = gpa.deinit();
     var allocator = gpa.allocator();
 

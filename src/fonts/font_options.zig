@@ -29,21 +29,21 @@ pub const FontOptions = struct {
     }
 
     pub fn setHintStyle(self: *Self, hint_style: HintStyle) void {
-        const c_integer = @enumToInt(hint_style);
-        const c_enum = @intToEnum(c.enum__cairo_hint_style, c_integer);
+        const c_integer = @intFromEnum(hint_style);
+        const c_enum = @as(c.enum__cairo_hint_style, @enumFromInt(c_integer));
         c.cairo_font_options_set_hint_style(self.c_ptr, c_enum);
     }
 
     pub fn setHintMetrics(self: *Self, hint_metrics: HintMetrics) void {
-        const c_integer = @enumToInt(hint_metrics);
-        const c_enum = @intToEnum(c.enum__cairo_hint_metrics, c_integer);
+        const c_integer = @intFromEnum(hint_metrics);
+        const c_enum = @as(c.enum__cairo_hint_metrics, @enumFromInt(c_integer));
         c.cairo_font_options_set_hint_metrics(self.c_ptr, c_enum);
     }
 
     /// https://cairographics.org/manual/cairo-cairo-font-options-t.html#cairo-font-options-status
     pub fn status(c_ptr: *c.struct__cairo_font_options) !Status {
         const c_enum = c.cairo_font_options_status(c_ptr);
-        const c_integer = @enumToInt(c_enum);
+        const c_integer = @intFromEnum(c_enum);
         return switch (c_integer) {
             c.CAIRO_STATUS_NO_MEMORY => Error.NoMemory,
             c.CAIRO_STATUS_SUCCESS => Status.Success,

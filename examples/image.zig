@@ -13,8 +13,8 @@ fn image(cr: *cairo.Context) !void {
 
     cr.translate(128.0, 128.0);
     cr.rotate(45 * pi / 180.0);
-    cr.scale(256.0 / @intToFloat(f64, w), 256.0 / @intToFloat(f64, h));
-    cr.translate(-0.5 * @intToFloat(f64, w), -0.5 * @intToFloat(f64, h));
+    cr.scale(256.0 / @as(f64, @floatFromInt(w)), 256.0 / @as(f64, @floatFromInt(h)));
+    cr.translate(-0.5 * @as(f64, @floatFromInt(w)), -0.5 * @as(f64, @floatFromInt(h)));
 
     cr.setSourceSurface(&surface, 0, 0);
     cr.paint();

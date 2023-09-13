@@ -27,7 +27,7 @@ const PathIterator = struct {
         // number of array elements for the current portion including the header
         // (ie. length == 1 + # of points)
         // https://cairographics.org/manual/cairo-Paths.html#cairo-path-data-t
-        defer self.i += @intCast(usize, self.data.?[self.i].header.length); // step
+        defer self.i += @as(usize, @intCast(self.data.?[self.i].header.length)); // step
         return PathDataType.fromCairoEnum(self.data.?[self.i].header.type);
     }
 };

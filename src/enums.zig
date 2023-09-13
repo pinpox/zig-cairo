@@ -14,7 +14,7 @@ pub const Antialias = enum {
 
     /// Convert from the C enum returned by Cairo into a Zig enum (for convenience).
     pub fn fromCairoEnum(c_integer: c_uint) Antialias {
-    // pub fn fromCairoEnum(c_enum: c.enum__cairo_antialias) Antialias {
+        // pub fn fromCairoEnum(c_enum: c.enum__cairo_antialias) Antialias {
         // const c_integer = @enumToInt(c_enum);
         return switch (c_integer) {
             c.CAIRO_ANTIALIAS_DEFAULT => Antialias.default,
@@ -50,7 +50,7 @@ pub const Content = enum {
     color_alpha, // in Cairo is 0x3000 i.e. 12288
 
     pub fn fromCairoEnum(c_enum: c.enum__cairo_content) Content {
-        const c_integer = @enumToInt(c_enum);
+        const c_integer = @intFromEnum(c_enum);
         return switch (c_integer) {
             c.CAIRO_CONTENT_COLOR => Content.color,
             c.CAIRO_CONTENT_ALPHA => Content.alpha,
@@ -81,7 +81,7 @@ pub const DeviceType = enum(u3) {
     // invalid = c.CAIRO_DEVICE_TYPE_INVALID, // -1
 
     pub fn fromCairoEnum(c_integer: c_int) DeviceType {
-    // pub fn fromCairoEnum(c_enum: c.enum__cairo_device_type) DeviceType {
+        // pub fn fromCairoEnum(c_enum: c.enum__cairo_device_type) DeviceType {
         // const c_integer = @enumToInt(c_enum);
         return switch (c_integer) {
             c.CAIRO_DEVICE_TYPE_DRM => DeviceType.drm,
@@ -99,14 +99,14 @@ pub const DeviceType = enum(u3) {
 
     pub fn toCairoEnum(self: DeviceType) c.enum__cairo_device_type {
         return switch (self) {
-            .drm => @intToEnum(c.enum__cairo_device_type, c.CAIRO_DEVICE_TYPE_DRM),
-            .gl => @intToEnum(c.enum__cairo_device_type, c.CAIRO_DEVICE_TYPE_GL),
-            .script => @intToEnum(c.enum__cairo_device_type, c.CAIRO_DEVICE_TYPE_SCRIPT),
-            .xcb => @intToEnum(c.enum__cairo_device_type, c.CAIRO_DEVICE_TYPE_XCB),
-            .xlib => @intToEnum(c.enum__cairo_device_type, c.CAIRO_DEVICE_TYPE_XLIB),
-            .xml => @intToEnum(c.enum__cairo_device_type, c.CAIRO_DEVICE_TYPE_XML),
-            .cogl => @intToEnum(c.enum__cairo_device_type, c.CAIRO_DEVICE_TYPE_WIN32),
-            .win32 => @intToEnum(c.enum__cairo_device_type, c.CAIRO_DEVICE_TYPE_COGL),
+            .drm => @as(c.enum__cairo_device_type, @enumFromInt(c.CAIRO_DEVICE_TYPE_DRM)),
+            .gl => @as(c.enum__cairo_device_type, @enumFromInt(c.CAIRO_DEVICE_TYPE_GL)),
+            .script => @as(c.enum__cairo_device_type, @enumFromInt(c.CAIRO_DEVICE_TYPE_SCRIPT)),
+            .xcb => @as(c.enum__cairo_device_type, @enumFromInt(c.CAIRO_DEVICE_TYPE_XCB)),
+            .xlib => @as(c.enum__cairo_device_type, @enumFromInt(c.CAIRO_DEVICE_TYPE_XLIB)),
+            .xml => @as(c.enum__cairo_device_type, @enumFromInt(c.CAIRO_DEVICE_TYPE_XML)),
+            .cogl => @as(c.enum__cairo_device_type, @enumFromInt(c.CAIRO_DEVICE_TYPE_WIN32)),
+            .win32 => @as(c.enum__cairo_device_type, @enumFromInt(c.CAIRO_DEVICE_TYPE_COGL)),
             // .invalid => @intToEnum(c.enum__cairo_device_type, c.CAIRO_DEVICE_TYPE_INVALID),
         };
     }
@@ -120,7 +120,7 @@ pub const Extend = enum(u2) {
     pad = c.CAIRO_EXTEND_PAD,
 
     pub fn fromCairoEnum(c_integer: c_uint) Extend {
-    // pub fn fromCairoEnum(c_enum: c.enum__cairo_extend) Extend {
+        // pub fn fromCairoEnum(c_enum: c.enum__cairo_extend) Extend {
         // const c_integer = @enumToInt(c_enum);
         return switch (c_integer) {
             c.CAIRO_EXTEND_NONE => Extend.none,
@@ -147,8 +147,8 @@ pub const FillRule = enum(u1) {
     even_odd = c.CAIRO_FILL_RULE_EVEN_ODD,
 
     pub fn fromCairoEnum(c_integer: c_uint) FillRule {
-    // pub fn fromCairoEnum(c_enum: c.enum__cairo_fill_rule) FillRule {
-    //     const c_integer = @enumToInt(c_enum);
+        // pub fn fromCairoEnum(c_enum: c.enum__cairo_fill_rule) FillRule {
+        //     const c_integer = @enumToInt(c_enum);
         return switch (c_integer) {
             c.CAIRO_FILL_RULE_WINDING => FillRule.winding,
             c.CAIRO_FILL_RULE_EVEN_ODD => FillRule.even_odd,
@@ -192,7 +192,7 @@ pub const Format = enum(u3) {
     // rgba128f = c.CAIRO_FORMAT_RGBA128F, // 7
 
     pub fn fromCairoEnum(c_enum: c.enum__cairo_format) Format {
-        const c_integer = @enumToInt(c_enum);
+        const c_integer = @intFromEnum(c_enum);
         return switch (c_integer) {
             c.CAIRO_FORMAT_ARGB32 => Format.argb32,
             c.CAIRO_FORMAT_RGB24 => Format.rgb24,
@@ -210,10 +210,10 @@ pub const Format = enum(u3) {
             // .argb32 => @enumToInt(@intToEnum(Format, c.CAIRO_FORMAT_ARGB32)),
             .argb32 => c.CAIRO_FORMAT_ARGB32,
             .rgb24 => c.CAIRO_FORMAT_RGB24,
-            .a8 =>  c.CAIRO_FORMAT_A8,
-            .a1 =>  c.CAIRO_FORMAT_A1,
-            .rgb16_565 =>  c.CAIRO_FORMAT_RGB16_565,
-            .rgb30 =>  c.CAIRO_FORMAT_RGB30,
+            .a8 => c.CAIRO_FORMAT_A8,
+            .a1 => c.CAIRO_FORMAT_A1,
+            .rgb16_565 => c.CAIRO_FORMAT_RGB16_565,
+            .rgb30 => c.CAIRO_FORMAT_RGB30,
         };
     }
 };
@@ -225,7 +225,7 @@ pub const LineCap = enum(u2) {
     square = c.CAIRO_LINE_CAP_SQUARE,
 
     pub fn fromCairoEnum(c_integer: c_uint) LineCap {
-    // pub fn fromCairoEnum(c_enum: c.enum__cairo_line_cap) LineCap {
+        // pub fn fromCairoEnum(c_enum: c.enum__cairo_line_cap) LineCap {
         // const c_integer = @enumToInt(c_enum);
         return switch (c_integer) {
             c.CAIRO_LINE_CAP_BUTT => LineCap.butt,
@@ -251,7 +251,7 @@ pub const LineJoin = enum(u2) {
     bevel = c.CAIRO_LINE_JOIN_BEVEL,
 
     pub fn fromCairoEnum(c_integer: c_uint) LineJoin {
-    // pub fn fromCairoEnum(c_enum: c.enum__cairo_line_join) LineJoin {
+        // pub fn fromCairoEnum(c_enum: c.enum__cairo_line_join) LineJoin {
         // const c_integer = @enumToInt(c_enum);
         return switch (c_integer) {
             c.CAIRO_LINE_JOIN_MITER => LineJoin.miter,
@@ -303,7 +303,7 @@ pub const Operator = enum(u5) {
     hsl_luminosity = c.CAIRO_OPERATOR_HSL_LUMINOSITY,
 
     pub fn fromCairoEnum(c_integer: c_uint) Operator {
-    // pub fn fromCairoEnum(c_enum: c.enum__cairo_operator) Operator {
+        // pub fn fromCairoEnum(c_enum: c.enum__cairo_operator) Operator {
         // const c_integer = @enumToInt(c_enum);
         return switch (c_integer) {
             c.CAIRO_OPERATOR_CLEAR => Operator.clear,
@@ -384,7 +384,7 @@ pub const PathDataType = enum(u2) {
     close_path = c.CAIRO_PATH_CLOSE_PATH,
 
     pub fn fromCairoEnum(c_enum: c.enum__cairo_path_data_type) PathDataType {
-        const c_integer = @enumToInt(c_enum);
+        const c_integer = @intFromEnum(c_enum);
         return switch (c_integer) {
             c.CAIRO_PATH_MOVE_TO => PathDataType.move_to,
             c.CAIRO_PATH_LINE_TO => PathDataType.line_to,
@@ -396,10 +396,10 @@ pub const PathDataType = enum(u2) {
 
     pub fn toCairoEnum(self: PathDataType) c.enum__cairo_path_data_type {
         return switch (self) {
-            .move_to => @intToEnum(c.enum__cairo_path_data_type, c.CAIRO_PATH_MOVE_TO),
-            .line_to => @intToEnum(c.enum__cairo_path_data_type, c.CAIRO_PATH_LINE_TO),
-            .curve_to => @intToEnum(c.enum__cairo_path_data_type, c.CAIRO_PATH_CURVE_TO),
-            .close_path => @intToEnum(c.enum__cairo_path_data_type, c.CAIRO_PATH_CLOSE_PATH),
+            .move_to => @as(c.enum__cairo_path_data_type, @enumFromInt(c.CAIRO_PATH_MOVE_TO)),
+            .line_to => @as(c.enum__cairo_path_data_type, @enumFromInt(c.CAIRO_PATH_LINE_TO)),
+            .curve_to => @as(c.enum__cairo_path_data_type, @enumFromInt(c.CAIRO_PATH_CURVE_TO)),
+            .close_path => @as(c.enum__cairo_path_data_type, @enumFromInt(c.CAIRO_PATH_CLOSE_PATH)),
         };
     }
 };
@@ -414,7 +414,7 @@ pub const PatternType = enum(u3) {
     raster_source = c.CAIRO_PATTERN_TYPE_RASTER_SOURCE,
 
     pub fn fromCairoEnum(c_integer: c_uint) PatternType {
-    // pub fn fromCairoEnum(c_enum: c.enum__cairo_pattern_type) PatternType {
+        // pub fn fromCairoEnum(c_enum: c.enum__cairo_pattern_type) PatternType {
         // const c_integer = @enumToInt(c_enum);
         return switch (c_integer) {
             c.CAIRO_PATTERN_TYPE_SOLID => PatternType.solid,
@@ -439,7 +439,7 @@ pub const PdfMetadata = enum(u3) {
     mod_date = c.CAIRO_PDF_METADATA_MOD_DATE,
 
     pub fn fromCairoEnum(c_enum: c.enum__cairo_pdf_metadata) PdfMetadata {
-        const c_integer = @enumToInt(c_enum);
+        const c_integer = @intFromEnum(c_enum);
         return switch (c_integer) {
             c.CAIRO_PDF_METADATA_TITLE => PdfMetadata.title,
             c.CAIRO_PDF_METADATA_AUTHOR => PdfMetadata.author,
@@ -471,7 +471,7 @@ pub const ScriptMode = enum(u1) {
     binary = c.CAIRO_SCRIPT_MODE_BINARY,
 
     pub fn fromCairoEnum(c_integer: c_uint) ScriptMode {
-    // pub fn fromCairoEnum(c_enum: anytype) ScriptMode {
+        // pub fn fromCairoEnum(c_enum: anytype) ScriptMode {
         // const c_integer = @enumToInt(c_enum);
         return switch (c_integer) {
             0 => ScriptMode.ascii,
@@ -517,7 +517,7 @@ pub const SurfaceType = enum(u5) {
     cogl = c.CAIRO_SURFACE_TYPE_COGL,
 
     pub fn fromCairoEnum(c_integer: c_uint) SurfaceType {
-    // pub fn fromCairoEnum(c_enum: c.enum__cairo_surface_type) SurfaceType {
+        // pub fn fromCairoEnum(c_enum: c.enum__cairo_surface_type) SurfaceType {
         // const c_integer = @enumToInt(c_enum);
         return switch (c_integer) {
             c.CAIRO_SURFACE_TYPE_IMAGE => SurfaceType.image,
@@ -564,7 +564,7 @@ pub const Unit = enum(u4) {
     percent = c.CAIRO_SVG_UNIT_PERCENT,
 
     pub fn fromCairoEnum(c_integer: c_uint) Unit { // there is no c.enum__cairo_unit
-    // pub fn fromCairoEnum(c_enum: anytype) Unit { // there is no c.enum__cairo_unit
+        // pub fn fromCairoEnum(c_enum: anytype) Unit { // there is no c.enum__cairo_unit
         // const c_integer = @enumToInt(c_enum);
         return switch (c_integer) {
             c.CAIRO_SVG_UNIT_USER => Unit.user,

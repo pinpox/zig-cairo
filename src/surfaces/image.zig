@@ -38,17 +38,17 @@ pub fn getFormat(surface: *c.struct__cairo_surface) Format {
 
 /// https://www.cairographics.org/manual/cairo-Image-Surfaces.html#cairo-image-surface-get-height
 pub fn getHeight(surface: *c.struct__cairo_surface) u16 {
-    return @intCast(u16, c.cairo_image_surface_get_height(surface));
+    return @as(u16, @intCast(c.cairo_image_surface_get_height(surface)));
 }
 
 /// https://www.cairographics.org/manual/cairo-Image-Surfaces.html#cairo-image-surface-get-stride
 pub fn getStride(surface: *c.struct__cairo_surface) u16 {
-    return @intCast(u16, c.cairo_image_surface_get_stride(surface));
+    return @as(u16, @intCast(c.cairo_image_surface_get_stride(surface)));
 }
 
 /// https://www.cairographics.org/manual/cairo-Image-Surfaces.html#cairo-image-surface-get-width
 pub fn getWidth(surface: *c.struct__cairo_surface) u16 {
-    return @intCast(u16, c.cairo_image_surface_get_width(surface));
+    return @as(u16, @intCast(c.cairo_image_surface_get_width(surface)));
 }
 
 /// https://www.cairographics.org/manual/cairo-Image-Surfaces.html#cairo-format-stride-for-width

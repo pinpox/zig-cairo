@@ -86,13 +86,13 @@ fn drawAll(cr: *cairo.Context, width: u16, height: u16) !void {
     const rh = 90.0; // rectangle height
     const margin = 20.0;
     const padding = 60.0;
-    for (operators) |op, i| {
+    for (operators, 0..) |op, i| {
         const row = @divTrunc(i, k);
         const col = @mod(i, k);
-        const pad_x = padding * @intToFloat(f64, col);
-        const pad_y = padding * @intToFloat(f64, row);
-        const x = margin + rw * @intToFloat(f64, col) + pad_x;
-        const y = margin + (rh * @intToFloat(f64, row)) + pad_y;
+        const pad_x = padding * @as(f64, @floatFromInt(col));
+        const pad_y = padding * @as(f64, @floatFromInt(row));
+        const x = margin + rw * @as(f64, @floatFromInt(col)) + pad_x;
+        const y = margin + (rh * @as(f64, @floatFromInt(row))) + pad_y;
         try draw(cr, width, height, x, y, rw, rh, op);
     }
 }

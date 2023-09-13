@@ -125,7 +125,7 @@ pub const Pattern = struct {
     /// https://cairographics.org/manual/cairo-cairo-pattern-t.html#cairo-pattern-get-color-stop-count
     pub fn getColorStopCount(self: *Self) !usize {
         var count: usize = 0;
-        var c_ptr = @ptrCast([*c]c_int, &count);
+        var c_ptr = @as([*c]c_int, @ptrCast(&count));
         const c_integer = c.cairo_pattern_get_color_stop_count(self.c_ptr, c_ptr);
         return switch (c_integer) {
             c.CAIRO_STATUS_SUCCESS => count,
@@ -140,7 +140,7 @@ pub const Pattern = struct {
     /// is an error.
     /// https://cairographics.org/manual/cairo-cairo-pattern-t.html#cairo-pattern-get-color-stop-rgba
     pub fn getColorStopRgba(self: *Self, index: usize, offset: *f64, red: *f64, green: *f64, blue: *f64, alpha: *f64) !void {
-        const c_integer = c.cairo_pattern_get_color_stop_rgba(self.c_ptr, @intCast(c_int, index), offset, red, green, blue, alpha);
+        const c_integer = c.cairo_pattern_get_color_stop_rgba(self.c_ptr, @as(c_int, @intCast(index)), offset, red, green, blue, alpha);
         return switch (c_integer) {
             c.CAIRO_STATUS_SUCCESS => {},
             c.CAIRO_STATUS_INVALID_INDEX => Error.InvalidIndex,
@@ -229,7 +229,7 @@ pub const Pattern = struct {
     /// cairo_surface_reference() if the surface is to be retained.
     /// https://cairographics.org/manual/cairo-cairo-pattern-t.html#cairo-pattern-get-surface
     pub fn getSurface(self: *Self, surface: *Surface) !void {
-        const c_ptr = @ptrCast([*c]?*c.struct__cairo_surface, &surface.c_ptr);
+        const c_ptr = @as([*c]?*c.struct__cairo_surface, @ptrCast(&surface.c_ptr));
         const c_integer = c.cairo_pattern_get_surface(self.c_ptr, c_ptr);
         return switch (c_integer) {
             c.CAIRO_STATUS_SUCCESS => {},

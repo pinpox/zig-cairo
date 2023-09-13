@@ -42,7 +42,7 @@ pub const Xcb = struct {
     pub fn setupRootsIterator(self: *Self) *c.struct_xcb_screen_t {
         // we need to cast from unknown length pointer to single pointer because
         // otherwise the zig compiler complains about s not supporting field access.
-        const s = @ptrCast(*c.xcb_screen_t, c.xcb_setup_roots_iterator(c.xcb_get_setup(self.c_ptr)).data);
+        const s = @as(*c.xcb_screen_t, @ptrCast(c.xcb_setup_roots_iterator(c.xcb_get_setup(self.c_ptr)).data));
         return s;
     }
 
@@ -74,7 +74,7 @@ pub fn lookup_visual(s: *c.xcb_screen_t, visual: c.xcb_visualid_t) ?*c.xcb_visua
     while (depth_iter.rem != 0) {
         var visual_iter = c.xcb_depth_visuals_iterator(depth_iter.data);
         while (visual_iter.rem != 0) {
-            if (@ptrCast(*c.xcb_visualtype_t, visual_iter.data).visual_id == visual) {
+            if (@as(*c.xcb_visualtype_t, @ptrCast(visual_iter.data)).visual_id == visual) {
                 return visual_iter.data;
             }
             c.xcb_visualtype_next(&visual_iter);

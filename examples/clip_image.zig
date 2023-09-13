@@ -17,7 +17,7 @@ fn clipImage(cr: *cairo.Context) !void {
     cr.clip();
     cr.newPath(); // path not consumed by cr.clip()
 
-    cr.scale(256.0 / @intToFloat(f64, w), 256.0 / @intToFloat(f64, h));
+    cr.scale(256.0 / @as(f64, @floatFromInt(w)), 256.0 / @as(f64, @floatFromInt(h)));
     cr.setSourceSurface(&image, 0, 0);
     cr.paint();
 }

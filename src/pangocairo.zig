@@ -53,7 +53,7 @@ pub const Layout = struct {
         var width: c_int = 0;
         var height: c_int = 0;
         c.pango_layout_get_pixel_size(self.c_ptr, &width, &height);
-        return Size{ .width = @intToFloat(f64, width), .height = @intToFloat(f64, height) };
+        return Size{ .width = @as(f64, @floatFromInt(width)), .height = @as(f64, @floatFromInt(height)) };
     }
 
     // TODO: is this ok?
@@ -64,7 +64,7 @@ pub const Layout = struct {
         var width: c_int = 0;
         var height: c_int = 0;
         c.pango_layout_get_size(self.c_ptr, &width, &height);
-        return Size{ .width = @intToFloat(f64, width), .height = @intToFloat(f64, height) };
+        return Size{ .width = @as(f64, @floatFromInt(width)), .height = @as(f64, @floatFromInt(height)) };
     }
 
     /// https://developer.gnome.org/pango/stable/pango-Layout-Objects.html#pango-layout-set-attributes
@@ -79,7 +79,7 @@ pub const Layout = struct {
 
     /// https://developer.gnome.org/pango/stable/pango-Layout-Objects.html#pango-layout-set-text
     pub fn setText(self: *Self, text: []const u8) void {
-        c.pango_layout_set_text(self.c_ptr, text.ptr, @intCast(c_int, text.len));
+        c.pango_layout_set_text(self.c_ptr, text.ptr, @as(c_int, @intCast(text.len)));
     }
 
     /// https://developer.gnome.org/pango/stable/pango-Cairo-Rendering.html#pango-cairo-show-layout
@@ -135,7 +135,7 @@ pub const FontDescription = struct {
 
     /// https://developer.gnome.org/pango/stable/pango-Fonts.html#pango-font-description-get-size
     pub fn getSize(self: *Self) usize {
-        return @intCast(usize, c.pango_font_description_get_size(self.c_ptr));
+        return @as(usize, @intCast(c.pango_font_description_get_size(self.c_ptr)));
     }
 
     /// https://developer.gnome.org/pango/stable/pango-Fonts.html#pango-font-description-get-style
@@ -231,7 +231,7 @@ pub const Rectangle = struct {
     // Can this function really fail to construct a c.struct__PangoRectangle?
     pub fn new(x: c_int, y: c_int, width: c_int, height: c_int) !Self {
         var rect = .{ .x = x, .y = y, .width = width, .height = height };
-        const c_ptr = @ptrCast(?*c.struct__PangoRectangle, &rect);
+        const c_ptr = @as(?*c.struct__PangoRectangle, @ptrCast(&rect));
         if (c_ptr == null) return Error.NullPointer; // or other errors?
         return Self{ .c_ptr = c_ptr.? };
     }

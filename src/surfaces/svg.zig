@@ -38,7 +38,7 @@ pub fn restrictToVersion() void {
 /// https://www.cairographics.org/manual/cairo-SVG-Surfaces.html#cairo-svg-surface-set-document-unit
 pub fn setDocumentUnit(surface: *c.struct__cairo_surface, unit: Unit) void {
     // TODO: check that the surface passed is a SVG surface
-    const u = @intToEnum(c.enum__cairo_svg_unit, @enumToInt(unit));
+    const u = @as(c.enum__cairo_svg_unit, @enumFromInt(@intFromEnum(unit)));
     c.cairo_svg_surface_set_document_unit(surface, u);
 }
 

@@ -3,8 +3,8 @@ const cairo = @import("cairo");
 
 /// Render a test image on a Cairo context.
 pub fn testImage(cr: *cairo.Context, width: usize, height: usize) void {
-    const w = @intToFloat(f64, width);
-    const h = @intToFloat(f64, height);
+    const w = @as(f64, @floatFromInt(width));
+    const h = @as(f64, @floatFromInt(height));
 
     // white background
     cr.setSourceRgb(1.0, 1.0, 1.0);
@@ -53,10 +53,10 @@ pub fn lineChart(cr: *cairo.Context, width: usize, height: usize) void {
     };
     const max_height: f64 = 25;
 
-    const w = @intToFloat(f64, width);
-    const h = @intToFloat(f64, height);
+    const w = @as(f64, @floatFromInt(width));
+    const h = @as(f64, @floatFromInt(height));
     const origin = .{ .x = 0, .y = h };
-    const n = @intToFloat(f64, points.len);
+    const n = @as(f64, @floatFromInt(points.len));
     const max_width = n - 1;
 
     // white background
