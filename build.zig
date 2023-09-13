@@ -67,9 +67,10 @@ pub fn build(b: *std.Build) void {
 
         tests.linkLibC();
         tests.linkSystemLibrary("xcb");
-        tests.linkSystemLibrary("pango");
+        tests.linkSystemLibrary("pango-1.0");
         tests.linkSystemLibrary("cairo");
         tests.linkSystemLibrary("pangocairo-1.0");
+
         const test_step = b.step(name, desc);
         test_step.dependOn(&tests.step);
         test_all_modes_step.dependOn(test_step);
@@ -100,10 +101,12 @@ pub fn build(b: *std.Build) void {
 
         example.linkLibC();
         example.linkSystemLibrary("cairo");
+        example.linkSystemLibrary("pango-1.0");
+        example.linkSystemLibrary("pangocairo-1.0");
+
         if (shouldIncludeXcb(name)) {
             example.linkSystemLibrary("xcb");
         }
-        example.linkSystemLibrary("pangocairo-1.0");
         // example.install(); // uncomment to build ALL examples (it takes ~2 minutes)
         // examples_step.dependOn(&example.step);
 
